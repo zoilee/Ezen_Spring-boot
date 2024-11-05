@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{include/header.html :: header}"></head>
+    <body>
+<section class="view">
+	<div class="view-box">
+		<div class="view-head" th:text="${bbs.title}">
+			<i class="ri-arrow-right-circle-fill"></i> 
+			
+		</div>
+		<div class="view-body">
+			<div class="contents-box">
+				<div class="wdate" th:text="${bbs.wdate}"><i class="ri-calendar-2-line"></i></div>
+				<div class="writer" th:text="${bbs.writer}" ><i class="ri-user-voice-line"></i></div>
+				<div class="count" th:text="${bbs.count}" ><i class="ri-anticlockwise-2-line"></i></div>          
+			</div>
+			<div class="contents" th:text="${bbs.contents}">
+				
+			</div>
+		</div>
+		<div class="view-foot">
+			<a href="?mode=list&pg=${currentPage}" class="btn btn-success mr-2">목록</a>
+			<a href="?mode=pass&bmode=edit&num=${boardView.num }&pg=${currentPage}" class="btn btn-warning mr-2">수정</a>
+			<a th:href="@{|/delete/${bbs.num}|}" class="btn btn-danger mr-2">삭제</a>
+			<a href="?mode=write&pg=${currentPage}" class="btn btn-success">글쓰기</a>
+		</div>
+	</div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{include/header.html :: header}"></head>
+    <body>
+        <h1 class="text-center my-5">Spring-Boot 게시판</h1>
+        <div class="container">
+            <h1 class="text-center my-5">글쓰기</h1>
+        <form name="write_form" action="write" id="write_form" class="row was-valited" method="post">
+        <div class="col-md-6 my-3">
+            <div class="row align-items-center">
+                <label for="writer" class="w-label">이름</label>
+                <input type="text" class="form-control" name="writer" id="writer" required />
+            </div>
+        </div>
+        
+       
+        <div class="col-md-6 my-3">
+            <div class="row align-items-center">
+                <label for="password" class="w-label">비밀번호</label>
+                <input type="password" class="form-control" name="password" id="password" required />
+            </div>
+        </div>
+
+        <div class="col-md-6 my-3"></div>
+
+            
+        <div class="col-md-12 my-3">
+            <div class="row align-items-center">
+                <label for="title" class="w-label">제목</label>
+                <input type="text" class="form-control" name="title" id="title" required />
+            </div>
+        </div>
+            <div class="col-md-12 my-3">
+            <div class="row align-items-center">
+                <label for="password" class="w-label">내용</label>
+                <textarea class="form-control" name="contents" id="contents" required></textarea>
+            </div>
+            </div>
+            <div class="col-md-12 text-center">
+            <button type="reset" class="btn btn-danger mx-2 px-4">취소</button>
+            <button type="submit" class="btn btn-success write mx-2 px-4">작성완료</button>
+            </div>  
+        </form>
+
+        </div>
+        <script>
+        $(function(){
+        $('#contents').summernote({
+            height: 250  
+        });	
+        });
+        </script>
+
+
+        </div>
+    </body>
+    </html>

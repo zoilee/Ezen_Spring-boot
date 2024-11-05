@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{include/header.html :: header}"></head>
+    <body>
+        <h1 class="text-center my-5">Spring-Boot 게시판</h1>
+        <div class="container">
+        <table class="bbslist table-hover" >
+            <colgroup>
+              <col width="10%">
+              <col width="50%">
+              <col width="15%">
+              <col width="15%">
+              <col width="10%">
+            </colgroup>
+            <thead>
+             <tr>
+               <th>번호</th>
+               <th>제목</th>
+               <th>작성자</th>
+               <th>날짜</th>
+               <th>조회수</th> 
+             </tr>
+            </thead>
+            <tbody>
+                <!--루프-->
+                <tr th:each="bbs: ${bbsList}">
+                    <td class="text-center" th:text="${bbs.num}"></td>
+                    <td class="ellipsis"><a th:href="@{|view/${bbs.num}|}" th:text="${bbs.title}"></a> </td>
+                    <td class="ellipsis text-center"th:text="${bbs.writer}"></td>
+                    <td class="text-center" th:text="${#temporals.format(bbs.wdate, 'yyyy/MM/dd')}"></td>
+                    <td class="text-center" th:text="${bbs.count}"></td>
+                </tr>
+                <!--/루프-->
+            </tbody>
+        </table>
+        <div class="search-and-button">
+            <div class="col-md-5 searchbox">
+                <form id="searchForm" method="get">
+                    <div class="input-group mt-3 mb-3">
+                        <div class="input-group-prepend">
+                            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" id="search-text">
+                                제목검색
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#" data-search="title">제목검색</a>
+                                <a class="dropdown-item" href="#" data-search="writer">이름검색</a>
+                                <a class="dropdown-item" href="#" data-search="contents">내용검색</a>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" id="searchInput" placeholder="검색어 입력" name="searchInput">
+                        <input type="hidden" id="searchKey" name="searchKey" value="title"/>
+                        <div class="input-group-append">
+                            <button class="btn btn-success" id="searchSubmit" type="submit">Go</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-7 text-right">
+            <a href="bbs.jsp" class="btn btn-success">목록</a> <a href="/write" class="btn btn-success">글쓰기</a>
+            </div>
+        </div>
+        <div>
+            <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link bg-light" href="?pg=1&searchInput=${searchInput}&searchKey=${searchKey}"><i class="ri-arrow-left-double-line"></i></a></li>
+            <!--  이전그룹 -->
+            <c:if test="${paging.startPageOfGroup > 1}">
+                <li class="page-item"><a class="page-link" href="?pg=${paging.startPageOfGroup -1}&searchInput=${searchInput}&searchKey=${searchKey}"><i class="ri-arrow-left-s-line"></i></a></li>
+            </c:if>
+            
+            <c:forEach var="i" begin="${paging.startPageOfGroup}" end="${paging.endPageOfGroup}">
+                <li class="page-item <c:if test='${i==paging.currentPage}'>active</c:if>"><a class="page-link" href="?pg=${i}&searchInput=${searchInput}&searchKey=${searchKey}">${i}</a></li>
+            </c:forEach>
+            
+            <!--  다음 그룹 -->
+            <c:if test="${paging.endPageOfGroup < paging.totalPages}">
+                <li class="page-item"><a class="page-link" href="?pg=${paging.endPageOfGroup + 1}&searchInput=${searchInput}&searchKey=${searchKey}"><i class="ri-arrow-right-s-line"></i></a></li>
+            </c:if>
+            <li class="page-item"><a class="page-link" href="?pg=${paging.totalPages}&searchInput=${searchInput}&searchKey=${searchKey}"><i class="ri-arrow-right-double-line"></i></a></li>
+            </ul>
+        </div> 
+   <!--/ccontainer-->
+    <!-- <script>
+        $(function(){
+            $(".dropdown-item").click(function(e){
+                e.preventDefault();
+                const selectedText = $(this).text();
+                const selectedKey = $(this).data("search");
+                $("#searchKey").val(selectedKey);
+                $("#search-text").text(selectedText);
+                
+            })
+         $(".page-link").click(function(){
+             
+         })
+        
+
+
+        var dbBoard = new Array();
+        <c:forEach var="post" items="${boardList }">
+            dbBoard.push({num:"${post.num}", title:"${post.title}", writer:"${post.writer}", viewDate:"${post.viewDate}", count:"${post.count}"})
+     </c:forEach>
+    </script> -->
+    
+</body>
+</html>

@@ -1,0 +1,154 @@
+body{
+    font-family: 'Noto Sans KR', sans-serif;
+    background:#eee;
+    font-size:16px;
+}
+
+/*** list ***/
+
+.bbslist{
+    width:100%;
+    border-bottom:2px solid #333;
+    margin-bottom: 40px;
+}
+
+/************ LIST **************/
+.bbslist{
+	width:100%;
+	max-width:865px;
+	border-bottom:2px solid #333;
+	margin-bottom:40px;
+}
+.search-and-button{
+	width:100%;
+	max-width:895px;
+	margin: 0px -15px 40px;
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+}
+.bbslist a{
+	color:#212529;
+	text-decoration:none;
+}
+.bbslist th{
+	padding-top:10px;
+	padding-bottom:10px;
+	border-top: 1px solid #999;
+	border-bottom: 2px solid #666;
+	text-align:center;
+	position:relative;
+}
+
+.bbslist th:not(:last-child)::after{
+	content:"";
+	display:block;
+	width:1px;
+	height:15px;
+	background:#999;
+	position:absolute;
+	top: 15px;
+	right:0;
+}
+.bbslist td{
+	padding:15px;
+	border-bottom:1px solid #999;
+}
+.bbslist td.ellipsis{
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+
+/*************** write **************/
+.w-label{
+	width:100px;
+	padding-right:30px;
+	text-align:right;
+}
+.w-label+input,
+.w-label+textarea{
+	width: 100%;
+}
+.w-label+textarea{
+	height: 200px;
+}
+
+
+/********** view **************/
+section.view{
+	background:#ddd;
+	padding:10px;
+	border-radius:5px;
+	position:relative;
+		
+}
+.view-box{
+	background:#fff;
+	min-height:600px;
+	border-radius:5px;
+	
+	
+}
+.view-head{
+	padding:20px 30px;
+	border-bottom:1px solid #ddd;
+	font-size:18px;
+	font-weight:600;
+}
+.view-head i{
+	margin-right:15px;
+}
+.contents-box{
+	display:flex;	
+	font-size:14px;
+	padding:10px 30px 50px;
+}
+.contents-box div{
+	padding-right:40px;
+	position:relative;
+}
+.contents-box div::after{
+	content:"";
+	display:block;
+	background:#999;
+	width:1px;
+	height:8px;
+	top:5px;
+	right:20px;
+	position:absolute;
+}
+.contents-box i{
+	margin-right:15px;
+}
+.view-box .contents{
+	padding: 0 30px 50px;
+}
+
+.view .view-foot{
+	position:absolute;
+	width:100%;
+	padding:40px;
+	text-align:right;
+	bottom:0;
+	
+}
+
+/****** passbox ********/
+.pass-box{
+	text-align:center;
+	padding:50px 50px 100px;
+}
+.pass-box p{
+	margin-bottom:50px;
+	color:red;
+}
+.bbspass{
+	width:50%;
+	padding:40px;
+	margin:auto;
+	background:#ddd;
+}
+.bbspass>.password{
+	margin-bottom:40px;
+}

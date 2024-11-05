@@ -1,0 +1,25 @@
+#포트
+server:
+    port: 8081
+
+spring:
+    #database 연동
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/kdtweb?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: z1z2z3z4
+    thymeleaf:
+        cache: false
+    devtools:
+        restart:
+            enabled: true
+        livereload:
+            enabled: true 
+    #spring data jpa 설정 MySQLInnoDBDialect(mysql5 version)
+    jpa:
+        database-platform: org.hibernate.dialect.MySQLDialect
+        open-in-view: false
+        show-sql: true
+        hibernate:
+            ddl-auto: update
