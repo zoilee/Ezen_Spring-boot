@@ -10,12 +10,24 @@ import org.springframework.data.repository.query.Param;
 import com.zoile.kdtboot.entity.BbsEntity;
 
 public interface BbsRepository extends JpaRepository<BbsEntity, Long> {
-    Page<BbsEntity> findAll(Pageable pageable);
+    
+    @Query("select b from BbsEntity b where b.title like %:title%")
+    Page<BbsEntity> findByTitleContaining( @Param("title") String title, Pageable pageable);
+
+    @Query("select b from BbsEntity b where b.content like %:content%")
+    Page<BbsEntity> findByContentContaining(@Param("content") String content, Pageable pageable);
+
+    @Query("select b from BbsEntity b where b.writer like %:writer%")
+    Page<BbsEntity> findByWriterContaining(@Param("writer")  String writer, Pageable pageable);
 
     //업데이트를 위한 저장소 셋팅update bbs_bbs set count=count+1 where num=?
     @Modifying 
-    @Query(value="update BbsEntity b set b.count=b.count+1 where b.num=:num")
-    void updateCount(@Param("num") Long num);
+    @Query(value="update BbsEntity b set b.count=b.count+1 where b.num = :id")
+    void updateCount(@Param("id") Long id);
+
+
+
+
 }
 
 /*

@@ -1,9 +1,8 @@
 package com.zoile.kdtboot.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +19,32 @@ public class BbsService {
     
     private final BbsRepository bbsRepository;
     
-    public List<BbsDto> findAll(Pageable pageable){
-        List<BbsEntity> bbsEntities = bbsRepository.findAll(pageable).getContent();
-        //entity 에서 가져온 리스트를  dto로 변환해줘야 리턴한다.
-        List<BbsDto> dtoList = new ArrayList<>();
-        for(BbsEntity bbsEntity : bbsEntities){
-            dtoList.add(BbsDto.toBbsDto(bbsEntity));
-        }
+    public Page<BbsDto> findAll(Pageable pageable){
+        Page<BbsEntity> bbsPage = bbsRepository.findAll(pageable);
 
-        return dtoList;
+
+        return bbsPage.map(BbsDto::toBbsDto);
+    }
+
+    public Page<BbsDto> search(String searchKey, String searchVal, Pageable pageable){
+        Page<BbsEntity> bbsPage;
+        switch (searchKey) {
+            case "title":
+                bbsPage = bbsRepository.findByTitleContaining(searchVal, pageable);
+                break;
+        
+            case "writer":
+                bbsPage = bbsRepository.findByWriterContaining(searchVal, pageable);
+                break;
+            case "contents":
+                bbsPage = bbsRepository.findByContentContaining(searchVal, pageable);
+                break;
+            default:
+                bbsPage = Page.empty();
+                break;
+        }
+        return bbsPage.map(BbsDto::toBbsDto);
+
     }
 
     public void save(BbsDto dto){
@@ -44,15 +60,19 @@ public class BbsService {
     }
 
     public BbsDto findById(Long num){
-        Optional <BbsEntity> opBbsEntity = bbsRepository.findById(num);
-        if(opBbsEntity.isPresent()){
-            BbsEntity bbsEntity = opBbsEntity.get();
-            BbsDto dto = BbsDto.toBbsDto(bbsEntity);
-            return dto;
-        }else{
-            return null;
-        }
-
+        // Optional <BbsEntity> opBbsEntity = bbsRepository.findById(num);
+        // if(opBbsEntity.isPresent()){
+        //     BbsEntity bbsEntity = opBbsEntity.get();
+        //     BbsDto dto = BbsDto.toBbsDto(bbsEntity);
+        //     return dto;
+        // }else{
+        //     return null;
+        // }
+        return bbsRepository.findById(num)
+                            .map(BbsDto::toBbsDto)
+                            .orElse(null);
+            
+        
     }
 
 

@@ -1,8 +1,8 @@
 package com.zoile.kdtboot.controller;
 
-import java.util.List;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -28,13 +28,33 @@ public class HomeController {
     private final BbsService bbsService;
 
     @GetMapping({"/", "/index"})
-    public String index(Model model){
-        int page = 0;
-        int size = 15;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("num").descending());
-        List<BbsDto> bbsList = bbsService.findAll(pageable);
-        model.addAttribute("bbsList", bbsList);
+    public String index(Model model,
+        @RequestParam(name="page", defaultValue="0") int page,
+        @RequestParam(name="size", defaultValue="15") int size,
+        @RequestParam(name="searchKey", required = false) String searchKey,
+        @RequestParam(name="searchVal", required = false) String searchVal
+    ){
         
+        Pageable pageable = PageRequest.of(page, size, Sort.by("num").descending());
+        Page<BbsDto> bbsPage;
+        if((searchKey != null && !searchKey.isEmpty()) && (searchVal != null && !searchVal.isEmpty())){
+            bbsPage = bbsService.search(searchKey, searchVal, pageable);
+            model.addAttribute("searchKey", searchKey);
+            model.addAttribute("searchVal", searchVal);
+        }else{
+            bbsPage = bbsService.findAll(pageable);
+        }
+        /** 페이지 그룹 미리 계산 */
+        int totalPages = bbsPage.getTotalPages();
+        int currentPage = bbsPage.getNumber() +1;
+        int startPageOfGroup = ((currentPage - 1)/ 15 )* 15 +1;
+        int endPageOfGroup = Math.min(startPageOfGroup + 14, totalPages);
+
+        model.addAttribute("bbsPage", bbsPage);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("startPageOfGroup", startPageOfGroup);
+        model.addAttribute("endPageOfGroup", endPageOfGroup);
+        model.addAttribute("totalPages", totalPages);
         return "index";
     }
 
